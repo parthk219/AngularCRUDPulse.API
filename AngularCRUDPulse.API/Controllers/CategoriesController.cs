@@ -52,5 +52,38 @@ namespace AngularCRUDPulse.API.Controllers
             //----
 
         }
+
+
+        [HttpGet]   // localhost /api/categories
+        public async Task<IActionResult> GetAllCategories()
+        {
+           var categories= await categoryRepository.GetAllAsync();
+            var resp = new List<CategoryDTO>();
+            foreach(var category in categories)
+            {
+                resp.Add(new CategoryDTO
+                {
+                    Id=category.Id,
+                    Name=category.Name,
+                    UrlHandle=category.UrlHandle
+                });
+            }
+            return Ok(resp);
+        }
+
+
+        [HttpGet]  // localhost/ api/ category /{id}
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetCategoryById([FromRoute]Guid id)
+        {
+            var existingCategory = await categoryRepository.GetById(id);
+            var resp = new CategoryDTO
+            {
+                Id = existingCategory.Id,
+                Name = existingCategory.Name,
+                UrlHandle = existingCategory.UrlHandle
+            };
+            return Ok(resp);
+        }
     }
 }
