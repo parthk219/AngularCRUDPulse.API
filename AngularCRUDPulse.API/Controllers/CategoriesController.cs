@@ -85,5 +85,23 @@ namespace AngularCRUDPulse.API.Controllers
             };
             return Ok(resp);
         }
+
+        //PUT
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> EditCategoty([FromRoute] Guid id,UpdateCategoryDto request)
+        {
+            var category = new Category
+            {
+                Id = id,
+                Name = request.Name,
+                UrlHandle = request.UrlHandle
+            };
+           category= await categoryRepository.UpdateAsync(category);
+            if (category == null)
+            { return NotFound(); }
+            else
+            { return Ok(); }
+        }
     }
 }

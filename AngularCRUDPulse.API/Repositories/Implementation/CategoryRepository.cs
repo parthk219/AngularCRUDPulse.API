@@ -30,6 +30,21 @@ namespace AngularCRUDPulse.API.Repositories.Implementation
 
         public async Task<Category> GetById(Guid id) => await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
 
+        public async Task<Category> UpdateAsync(Category category)
+        {
+            var existingCategory = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == category.Id);
+
+            if (existingCategory != null)
+            {
+                dbContext.Entry(existingCategory).CurrentValues.SetValues(category);
+                await dbContext.SaveChangesAsync();
+
+                return existingCategory; // Return the updated category
+            }
+
+            return null; // This indicates that the category with the provided ID was not found.
+        }
+
         //public async Task<Category?> GetById(Guid id)
         //{
         //    await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
