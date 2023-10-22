@@ -26,10 +26,10 @@ namespace AngularCRUDPulse.API.Controllers
         {
             this.categoryRepository = categoryRepository;
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequestDTO req)
-        { 
+        {
             // mapping dto to domain  & initialising or assigning
             var category = new Category
             {
@@ -47,7 +47,7 @@ namespace AngularCRUDPulse.API.Controllers
                 Name = category.Name,
                 UrlHandle = category.UrlHandle
             };
-           
+
             return Ok();
             //----
 
@@ -57,15 +57,15 @@ namespace AngularCRUDPulse.API.Controllers
         [HttpGet]   // localhost /api/categories
         public async Task<IActionResult> GetAllCategories()
         {
-           var categories= await categoryRepository.GetAllAsync();
+            var categories = await categoryRepository.GetAllAsync();
             var resp = new List<CategoryDTO>();
-            foreach(var category in categories)
+            foreach (var category in categories)
             {
                 resp.Add(new CategoryDTO
                 {
-                    Id=category.Id,
-                    Name=category.Name,
-                    UrlHandle=category.UrlHandle
+                    Id = category.Id,
+                    Name = category.Name,
+                    UrlHandle = category.UrlHandle
                 });
             }
             return Ok(resp);
@@ -74,7 +74,7 @@ namespace AngularCRUDPulse.API.Controllers
 
         [HttpGet]  // localhost/ api/ category /{id}
         [Route("{id:Guid}")]
-        public async Task<IActionResult> GetCategoryById([FromRoute]Guid id)
+        public async Task<IActionResult> GetCategoryById([FromRoute] Guid id)
         {
             var existingCategory = await categoryRepository.GetById(id);
             var resp = new CategoryDTO
@@ -89,7 +89,7 @@ namespace AngularCRUDPulse.API.Controllers
         //PUT
         [HttpPut]
         [Route("{id:Guid}")]
-        public async Task<IActionResult> EditCategoty([FromRoute] Guid id,UpdateCategoryDto request)
+        public async Task<IActionResult> EditCategoty([FromRoute] Guid id, UpdateCategoryDto request)
         {
             var category = new Category
             {
@@ -97,11 +97,32 @@ namespace AngularCRUDPulse.API.Controllers
                 Name = request.Name,
                 UrlHandle = request.UrlHandle
             };
-           category= await categoryRepository.UpdateAsync(category);
+            category = await categoryRepository.UpdateAsync(category);
             if (category == null)
             { return NotFound(); }
             else
             { return Ok(); }
+        }
+
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
+        {
+            var category = await categoryRepository.DeleteAsync(id);
+
+            if (category is null)
+            {
+                return NotFound(); // Category with the provided id was not found
+            }
+            ////return category;
+            var response = new CategoryDTO
+            {
+                Id = category.Id,
+                Name = category.Name,
+                UrlHandle = category.UrlHandle
+            };
+             return Ok(response);
         }
     }
 }
