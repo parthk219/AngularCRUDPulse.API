@@ -45,6 +45,10 @@ this.paramsSubscription=this.route.paramMap.subscribe({
       name:this.category?.name??'',
       urlHandle:this.category?.urlHandle??''
     };
+
+//  OfflineAudioCompletionEvent
+
+
 // passing object to service
     if(this.id){
     this.editCategorySubscription=this.categoryService.updateCategory(this.id,
@@ -59,6 +63,14 @@ this.paramsSubscription=this.route.paramMap.subscribe({
   ngOnDestroy(): void {
     this.paramsSubscription?.unsubscribe();
     this.editCategorySubscription?.unsubscribe();
+  }
+
+  onDelete():void{
+  if(this.id){
+    this.categoryService.deleteCategory(this.id).subscribe({next:(response)=>{
+      this.router.navigateByUrl('/admin/categories');
+    }})
+  }
   }
 
 }
