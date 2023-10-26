@@ -15,6 +15,9 @@ export class BlogPostService {
   {
     return this.http.post<BlogPost>(`https://localhost:44346/api/blogposts`,data); 
   }
+  getAllBlogPosts():Observable<BlogPost[]>{
+    return this.http.get<BlogPost[]>(`https://localhost:44346/api/blogposts`);
+  }
 }
 
 // (`https://localhost:44346/api/categories/${id}`);

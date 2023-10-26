@@ -9,7 +9,8 @@ namespace AngularCRUDPulse.API.Models.DTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public string ShortDesc { get; set; }
+        //public string ShortDesc { get; set; }
+        public string shortDescription { get; set; }
         public string Content { get; set; }
         public string FeatureImageUrl { get; set; }
         public string UrlHandle { get; set; }

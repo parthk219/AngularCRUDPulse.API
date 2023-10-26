@@ -1,6 +1,7 @@
 ﻿using AngularCRUDPulse.API.Data;
 using AngularCRUDPulse.API.Models.Domain;
 using AngularCRUDPulse.API.Repositories.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,10 @@ namespace AngularCRUDPulse.API.Repositories.Implementation
             return blogPost;
 
         }
+
+        public async Task<IEnumerable<BlogPost>> GetAllAsync()
+        {
+            return await dbContext.BlogPosts.ToListAsync();
+                }
     }
 }

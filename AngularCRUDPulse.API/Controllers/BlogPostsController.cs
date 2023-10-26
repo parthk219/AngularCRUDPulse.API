@@ -44,13 +44,39 @@ namespace AngularCRUDPulse.API.Controllers
                 FeatureImageUrl = blogPost.FeatureImageUrl,
                 isVisible = blogPost.isVisible,
                 PublishedDate = blogPost.PublishedDate,
-                ShortDesc = blogPost.ShortDesc,
+                shortDescription = blogPost.ShortDesc,
                 Title = blogPost.Title,
                 UrlHandle = blogPost.UrlHandle
 
             };
             return Ok();
         
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllBlogPosts()
+        {
+            var blogPosts = await blogPostRepository.GetAllAsync();
+            var response=new List<BlogPostDto>();
+            foreach(var blogPost in blogPosts)
+            {
+                response.Add(new BlogPostDto
+                {
+                    Id = blogPost.Id,
+                    Author = blogPost.Author,
+                    Content = blogPost.Author,
+                    FeatureImageUrl = blogPost.FeatureImageUrl,
+                    isVisible = blogPost.isVisible,
+                    PublishedDate = blogPost.PublishedDate,
+
+                    shortDescription = blogPost.ShortDesc,
+                    Title = blogPost.Title,
+                    UrlHandle = blogPost.UrlHandle
+                });
+            }
+            
+            return Ok(response);
+
         }
     }
 }
