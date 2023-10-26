@@ -32,6 +32,7 @@ namespace AngularCRUDPulse.API
         {
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("ConnKey")));
