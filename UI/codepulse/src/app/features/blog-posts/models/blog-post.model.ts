@@ -1,6 +1,7 @@
 export interface BlogPost{
-    id:string;
-    title :string;
+id:string;
+
+title :string;
 
 shortDescription :string;
 
