@@ -16,5 +16,6 @@ namespace AngularCRUDPulse.API.Models.Domain
         public string Author { get; set; }
         public bool isVisible { get; set; }
         public DateTime PublishedDate { get; set; }
+        public ICollection<Category> Categories { get; set; }
     }
 }

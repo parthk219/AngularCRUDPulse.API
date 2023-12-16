@@ -1,5 +1,6 @@
 ﻿using AngularCRUDPulse.API.Models.Domain;
 using AngularCRUDPulse.API.Models.DTO;
+using AngularCRUDPulse.API.Repositories.Implementation;
 using AngularCRUDPulse.API.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,8 +16,9 @@ namespace AngularCRUDPulse.API.Controllers
     public class BlogPostsController : ControllerBase
     {
         private readonly IBlogPostRepository blogPostRepository;
+        private readonly ICategoryRepository categoryRepository;
 
-        public BlogPostsController(IBlogPostRepository blogPostRepository)
+        public BlogPostsController(IBlogPostRepository blogPostRepository,ICategoryRepository categoryRepository)
         {
             this.blogPostRepository = blogPostRepository;
         }
@@ -32,8 +34,21 @@ namespace AngularCRUDPulse.API.Controllers
                 PublishedDate = request.PublishedDate,
                 ShortDesc = request.shortDescription,
                 Title = request.Title,
-                UrlHandle = request.UrlHandle
+                UrlHandle = request.UrlHandle,
+                Categories = new List<Category>()
             };
+
+            foreach(var categoryGuid in request.Categories)
+            {
+                var existingCategory = await categoryRepository.GetById(categoryGuid);
+                if (existingCategory != null)
+                {
+                    blogPost.Categories.Add(existingCategory);
+                }
+            }
+
+
+
             blogPost=await blogPostRepository.CreateAsync(blogPost);
 
             var response = new BlogPostDto
@@ -47,6 +62,7 @@ namespace AngularCRUDPulse.API.Controllers
                 shortDescription = blogPost.ShortDesc,
                 Title = blogPost.Title,
                 UrlHandle = blogPost.UrlHandle
+
 
             };
             return Ok();
@@ -71,8 +87,7 @@ namespace AngularCRUDPulse.API.Controllers
 
                     shortDescription = blogPost.ShortDesc,
                     Title = blogPost.Title,
-                    UrlHandle = blogPost.UrlHandle
-                });
+                    UrlHandle = blogPost.UrlHandle                });
             }
             
             return Ok(response);

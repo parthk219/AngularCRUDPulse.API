@@ -55,6 +55,14 @@
             </div>
             <div class="mt-3">
                 <label for="featuredImageUrl" class="form-label">Featured Image Url</label>
+                 
+                <ng-container *ngIf="model.featuredImageUrl !== ''">
+                    <div>
+                      <img [src]="model.featuredImageUrl" alt="Featured Image">
+                    </div>
+                  </ng-container>
+                  
+
                 <input type="text" id="featuredImageUrl" name="featuredImageUrl" class="form-control"
                 [(ngModel)]="model.featuredImageUrl">
             </div>

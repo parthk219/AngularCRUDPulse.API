@@ -18,5 +18,7 @@ namespace AngularCRUDPulse.API.Models.DTO
         public string Author { get; set; }
         public bool isVisible { get; set; }
         public DateTime PublishedDate { get; set; }
+
+        public Guid[] Categories { get; set; }
     }
 }
